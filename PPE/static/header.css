@@ -1,0 +1,11 @@
+.header{
+
+    height: 100px;
+    width: auto;
+    background-color: yellow;
+}
+.title{
+    font-size: large;
+    font-weight: bold;
+    color: black;
+}
