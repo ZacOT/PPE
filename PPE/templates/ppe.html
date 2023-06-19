@@ -7,21 +7,61 @@
 </head>
 <body>
     {% include "header.html" %}
-    <div class="scanner"> Collection </div>
-    <div id="reader" width="600px"></div>
+
+    <div id="reader" height="250px" width="600px"></div>
+
+    <form id="logs" action="/logs" method="post">
+        <input type="text" id="empID" name="empID" placeholder="Employee ID" value="">
+        <input type="text" id="ppeID" name="ppeID" placeholder="PPE ID" value="">
+        <input type="submit" value="Submit" />
+    </form>
 </body>
 </html>
 
 <script>
-    function onScanSuccess(decodedText, decodedResult) {
-  // handle the scanned code as you like, for example:
-  console.log(`Code matched = ${decodedText}`, decodedResult);
+function onScanSuccess(decodedText, decodedResult) {
+  var empID = document.getElementById('empID');
+  var ppeID = document.getElementById('ppeID');
+
+  console.log(decodedText.charAt(0))
+  console.log(decodedText)
+
+  if (ppeID.value == ""){
+    if(decodedText.charAt(0) == "P"){
+      document.getElementById('ppeID').value = decodedText.substring(1);
+    }
+  }
+  else{
+    console.log("PPE Input Already Filled")
+  }
+
+  if (empID.value == ""){
+    if (decodedText.charAt(0) == "E"){
+      document.getElementById('empID').value = decodedText.substring(1);
+    }
+  }
+  else{
+    console.log("EMP Input Already Filled")
+  }
+
+  console.log("START OF INPUT CHECK");
+  console.log(document.getElementById('empID'));
+  console.log(document.getElementById('ppeID'));
+
+  if(empID.charAt(0) == "E"){
+    if(ppeID.charAt(0) == "P"){
+        console.log("submitting")
+        document.forms["logs"].submit();
+        alert('submitted');
+    }
+  }
 }
+
 
 function onScanFailure(error) {
   // handle scan failure, usually better to ignore and keep scanning.
   // for example:
-  console.warn(`Code scan error = ${error}`);
+  setTimeout(() => {console.warn(`Code scan error = ${error}`)}, 3000);
 }
 
 let html5QrcodeScanner = new Html5QrcodeScanner(
