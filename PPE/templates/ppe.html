@@ -10,7 +10,7 @@
 
     <div id="reader" height="250px" width="600px"></div>
 
-    <form id="logs" action="/logs" method="post">
+    <form id="logs" action="/logs" method="post" onsubmit="submitted()">
         <input type="text" id="empID" name="empID" placeholder="Employee ID" value="">
         <input type="text" id="ppeID" name="ppeID" placeholder="PPE ID" value="">
         <input type="submit" value="Submit" />
@@ -66,7 +66,11 @@ function onScanFailure(error) {
 
 let html5QrcodeScanner = new Html5QrcodeScanner(
   "reader",
-  { fps: 10, qrbox: {width: 600, height: 250} },
+  { fps: 10, qrbox: {aspectRatio: 1.2, width: 600, height: 250} },
   /* verbose= */ false);
 html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+function submitted(){
+  alert("PPE Tag and Employee ID Scanned")
+}
 </script>

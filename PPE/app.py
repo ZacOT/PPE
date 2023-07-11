@@ -73,20 +73,24 @@ def logs():
 
     return render_template('ppe.html')
 
-@app.route("/records")
+@app.route("/records", methods = ['get', 'post'])
 def records():
-    con=connect(user="root",password="",host="localhost",database="ppe")
-    with pd.ExcelWriter('ppe_records.xlsx') as writer:
-        df=pd.read_sql('select * from employees', con)
-        df.to_excel(writer, sheet_name="emp")
+    if request.method == 'GET':
+        return render_template('records.html')
+    if request.method == 'POST':
+        con=connect(user="root",password="",host="localhost",database="ppe")
+        with pd.ExcelWriter('ppe_records.xlsx') as writer:
+            df=pd.read_sql('select * from employees', con)
+            df.to_excel(writer, sheet_name="emp")
 
-        df=pd.read_sql('select * from ppe', con)
-        df.to_excel(writer, sheet_name="ppe")
-        
-        df=pd.read_sql('SELECT * FROM logs WHERE return_datetime IS NOT NULL', con)
-        df.to_excel(writer, sheet_name="logs")
+            df=pd.read_sql('select * from ppe', con)
+            df.to_excel(writer, sheet_name="ppe")
+            
+            df=pd.read_sql('SELECT * FROM logs WHERE return_datetime IS NOT NULL', con)
+            df.to_excel(writer, sheet_name="logs")
 
-    return render_template('ppe.html')
+        data = "Record Saved"
+        return render_template('records.html', sdata=data)
 
 if __name__ == "__main__":
     app.run(debug=True)

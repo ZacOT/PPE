@@ -1,0 +1,16 @@
+<html>
+<head>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='ppe.css') }}">
+<title>PRINT REPORT</title>
+
+</head>
+<body>
+    {% include "header.html" %}
+    <div style="margin-left: auto; margin-right: auto; margin-top:50px; width: 200px;">
+        <form action="/records" method="post">
+            Generate Report Here:<br/>
+            <input type="submit" value="Print Record" />
+        </form>
+    </div>
+    {{ sdata }}
+</body>
